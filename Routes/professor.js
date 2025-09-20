@@ -42,7 +42,7 @@ const novoProfessor = {
 }
 // inserir a nova pessoa montada na lista
 pessoas.push(novoProfessor)
-res.status(201).json({message: "Professor Cadastrada!!!!", novoProfessor})
+res.status(201).json({message: "Professor Cadastrado!!!!", novoProfessor})
 
 })
 
@@ -65,6 +65,7 @@ router.get('/professores/:id', (req, res, next) => {
 })
 
 // atualizar
+// - PUT /pessoas/{id}
 router.put('/professores/:id', (req, res, next) => {
     const {nome, email, disciplina, curso} = req.body
 if(!nome || !email || !disciplina || curso){
@@ -74,7 +75,7 @@ if(!nome || !email || !disciplina || curso){
 const idRecebido = req.params.id
 const professor = professores.find(professor => professor.id == idRecebido)
 if(!professor){
-    return res.status(404).json({error: "pessoa não encontrada"})
+    return res.status(404).json({error: "pessoa não encontrado"})
 }
 // sobreescreve os dados das pessoas pra atualizar
 professor.nome = nome
@@ -85,7 +86,8 @@ res.json({message: "Professor atualizado com sucesso"})
 })
 
 // deletar
-// - DELETE /pessoas/{id}router.delete('/professores/:id', (req, res, next) => {
+// - DELETE /pessoas/{id}
+router.delete('/professores/:id', (req, res, next) => {
     const idRecebido = req.params.id
     const professor = professores.find(professor => professor.id == idRecebido)
     if (!professor) {
