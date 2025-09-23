@@ -1,110 +1,102 @@
 const express = require('express')
 const router = express.Router()
 
-// mapeamento dos endpoint e a lógica
-// Lista de pessoas para simular o banco de dados
 let professores = [
     {
         id: 1,
-        nome: "Gay irritado",
+        nome: "Gustavo Clay",
+        email: "Gustavo@Clay.com",
         cpf:"35912854854",
-        email: "gayirrita@trveco.com",
-        dataNascimento: "17/12/0004"
+        curso: "ADS",
+        disciplina: "Construção de back-end"
     },
     {
         id: 2,
-        nome: "Firmino fenomeno",
+        nome: "Marcelo Paiva",
+        email: "Marcelo@Paiva.com",
         cpf:"3591365254",
-        email: "comedorde@trveco.com",
-        dataNascimento: "23/12/0004"
+        disciplina: "ADS",
+        curso: "engenharia de software e metodos agéis"
     }
 ]
 
-// Criar
-// - POST /pessoas
-router.post('/pessoas', (req, res, next) => {
-const {nome, cpf, email, dataNascimento} = req.body
-// validar se os dados ieram
-if(!nome|| !cpf || !email || !dataNascimento)    {
-    return res.status(400).json({error: "nome, cpf, email e data de nascimento são obrigatorios"})
+router.post('/professores', (req, res, next) => {
+const {nome, cpf, email, disciplina, curso} = req.body
+
+if(!nome|| !cpf || !email || !disciplina || !curso)    {
+    return res.status(400).json({error: "nome, cpf, email, disciplina e curso são obrigatorios"})
 }
-// validar se o CPF ja existe
-const pessoa = pessoas.find (pessoa => pessoa.cpf == cpf)
-if(pessoa){
+
+const professor = professores.find (professor => professor.cpf == cpf)
+if(professor){
     return res.status(409).json({error: "CPF já cadastrado"})
 }
-// cadastrar a nova pessoa na lista
-const novaPessoa = {
+// cadastrar o novo professor na lista
+const novoProfessor = {
     id: Date.now(),
     nome,
     cpf, 
     email,
-    dataNascimento
+    disciplina,
+    curso
 }
-// inserir a nova pessoa montada na lista
-pessoas.push(novaPessoa)
-res.status(201).json({message: "Pessoa Cadastrada!!!!", novaPessoa})
+// inserir o novo Professor montada na lista
+professores.push(novoProfessor)
+res.status(201).json({message: "Professor Cadastrado!!!!", novoProfessor})
 
 })
 
 // Listar todos
-// - GET /pessoas
-router.get('/pessoas', (req, res, next) => {
-    res.json(pessoas)
+// - GET /professores
+router.get('/professores', (req, res, next) => {
+    res.json(professores)
 })
 
 // Buscar um
-// - GET /pessoas/{id}
-router.get('/pessoas/:id', (req, res, next) => {
+// - GET /professores/{id}
+router.get('/professores/:id', (req, res, next) => {
     const idRecebido = req.params.id
-    const pessoa = pessoas.find(p => p.id == idRecebido)
-    if(!pessoa) {
-        return res.status(404).json({error: "Pessoa não encontrada!!!" })
+    const professor = professores.find(professor => professor.id == idRecebido)
+    if(!professor) {
+        return res.status(404).json({error: "Professor não encontrado!!!" })
     } 
-    res.json(pessoa)
+    res.json(professor)
 
 })
 
 // atualizar
-// - PUT /pessoas/{id}
-router.put('/pessoas/:id', (req, res, next) => {
-    const {nome, email, dataNascimento} = req.body
-if(!nome || !email || !dataNascimento){
-    return res.status(400).json({error: "nome, email e data de nascimento são obrigatorios"})
+// - PUT /professores/{id}
+router.put('/professores/:id', (req, res, next) => {
+    const {nome, email, disciplina, curso} = req.body
+if(!nome || !email || !disciplina || !curso){
+    return res.status(400).json({error: "nome, email , disciplina, e curso são obrigatorios"})
 }
-// validar se a pessoa com aquele ID existe na lista
+// validar se o professor com aquele ID existe na lista
 const idRecebido = req.params.id
-const pessoa = pessoas.find(pessoa => pessoa.id == idRecebido)
-if(!pessoa){
-    return res.status(404).json({error: "pessoa não encontrada"})
+const professor = professores.find(professor => professor.id == idRecebido)
+if(!professor){
+    return res.status(404).json({error: "Professor não encontrado"})
 }
-// sobreescreve os dados das pessoas pra atualizar
-pessoa.nome = nome
-pessoa.email = email
-pessoa.dataNascimento = dataNascimento
-res.json({message: "Pessoa atualizada com sucesso"})
+// sobreescreve os dados dos professores pra atualizar
+professor.nome = nome
+professor.email = email
+professor.disciplina = disciplina
+professor.curso = curso
+res.json({message: "Professor atualizado com sucesso"})
 })
 
 // deletar
-// - DELETE /pessoas/{id}
-router.delete('/pessoas/:id', (req, res, next) => {
+// - DELETE /professores/{id}
+router.delete('/professores/:id', (req, res, next) => {
     const idRecebido = req.params.id
-    const pessoa = pessoas.find(pessoa => pessoa.id == idRecebido)
-    if (!pessoa) {
-        return res.status(404).json({error:"Pessoa não encontrada"})
+    const professor = professores.find(professor => professor.id == idRecebido)
+    if (!professor) {
+        return res.status(404).json({error:"Professor não encontrado"})
     }
-    pessoas = pessoas.filter(pessoa => pessoa.id != idRecebido)
+    professores = professores.filter(professor => professor.id != idRecebido)
 
-    res.json({message: "Pessoa excluida com sucesso"})
+    res.json({message: "Professor excluido com sucesso"})
 })
-
-
-
-
-
-
-
-
 
 
 
