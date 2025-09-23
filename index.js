@@ -6,6 +6,7 @@ const cors = require('cors')
 app.use(cors())
 
 app.use(express.json())
+
 // LOG
 app.use((req,res,next) =>{
     console.log("####### LOG de requisição ######")
