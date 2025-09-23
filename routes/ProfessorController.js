@@ -100,12 +100,4 @@ router.delete('/professores/:id', (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
 module.exports = router
